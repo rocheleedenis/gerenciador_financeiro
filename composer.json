@@ -11,5 +11,11 @@
         "psr-4": {
             "SonFin\\": "src/"
         }
+    },
+    "require": {
+        "robmorgan/phinx": "^0.12.9"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "^1.9"
     }
 }
