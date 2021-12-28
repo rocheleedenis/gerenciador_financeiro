@@ -1,0 +1,15 @@
+{
+    "name": "rocheleedenis/curso_gerenciador_financeiro",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Rochele Edenís",
+            "email": "rochele.edenis@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SonFin\\": "src/"
+        }
+    }
+}
