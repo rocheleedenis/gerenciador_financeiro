@@ -13,7 +13,8 @@
         }
     },
     "require": {
-        "robmorgan/phinx": "^0.12.9"
+        "robmorgan/phinx": "^0.12.9",
+        "xtreamwayz/pimple-container-interop": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9"
