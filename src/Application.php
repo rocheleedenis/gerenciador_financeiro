@@ -1,5 +1,6 @@
 <?php
 
+use Cake\Core\PluginInterface;
 use SonFin\ServiceContainerInterface;
 
 class Application
@@ -23,5 +24,10 @@ class Application
         } else {
             $this->serviceContainer->add($name, $service);
         }
+    }
+
+    public function plugin(PluginInterface $plugin) : void
+    {
+        $plugin->register($this->serviceContainer);
     }
 }
