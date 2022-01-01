@@ -2,6 +2,7 @@
 
 namespace SonFin;
 
+use Psr\Http\Message\RequestInterface;
 use SonFin\Plugins\PluginInterface;
 use SonFin\ServiceContainerInterface;
 
@@ -44,7 +45,18 @@ class Application
     public function start()
     {
         $route = $this->service('route');
+
+        if (!$route) {
+            echo 'Page not found';
+            exit;
+        }
+
+        $request = $this->service(RequestInterface::class);
+        foreach ($route->attributes as $key => $value) {
+            $request = $request->withAttribute($key, $value);
+        }
+
         $callable = $route->handler;
-        $callable();
+        $callable($request);
     }
 }
