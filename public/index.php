@@ -4,6 +4,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SonFin\Application;
 use SonFin\Plugins\RoutePlugin;
+use SonFin\Plugins\ViewPlugin;
 use SonFin\ServiceContainer;
 use Zend\Diactoros\Response;
 
@@ -13,9 +14,12 @@ $serviceContainer = new ServiceContainer();
 $app              = new Application($serviceContainer);
 
 $app->plugin(new RoutePlugin);
+$app->plugin(new ViewPlugin);
 
-$app->get('/', function (RequestInterface $request) {
-    var_dump($request->getUri());
+$app->get('/{name}', function (ServerRequestInterface $request) use ($app) {
+    $view = $app->service('view.renderer');
+
+    return $view->render('test.html.twig', ['name' => $request->getAttribute('name')]);
 });
 
 $app->get('/home/{name}/{id}', function (ServerRequestInterface $request) {
