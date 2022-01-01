@@ -1,10 +1,11 @@
 <?php
 
 use Psr\Http\Message\RequestInterface;
-use SonFin\Application;
-use SonFin\ServiceContainer;
-use SonFin\Plugins\RoutePlugin;
 use Psr\Http\Message\ServerRequestInterface;
+use SonFin\Application;
+use SonFin\Plugins\RoutePlugin;
+use SonFin\ServiceContainer;
+use Zend\Diactoros\Response;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -18,9 +19,10 @@ $app->get('/', function (RequestInterface $request) {
 });
 
 $app->get('/home/{name}/{id}', function (ServerRequestInterface $request) {
-    echo 'Home page';
-    echo '</br>' . $request->getAttribute('name');
-    echo '</br>' . $request->getAttribute('id');
+    $response = new Response();
+    $response->getBody()->write($request->getAttribute('name'));
+
+    return $response;
 });
 
 $app->start();
