@@ -1,13 +1,15 @@
 <?php
 
-use Cake\Core\PluginInterface;
+namespace SonFin;
+
+use SonFin\Plugins\PluginInterface;
 use SonFin\ServiceContainerInterface;
 
 class Application
 {
     private $serviceContainer;
 
-    public function __construction(ServiceContainerInterface $serviceContainer)
+    public function __construct(ServiceContainerInterface $serviceContainer)
     {
         $this->serviceContainer = $serviceContainer;
     }
@@ -29,5 +31,20 @@ class Application
     public function plugin(PluginInterface $plugin) : void
     {
         $plugin->register($this->serviceContainer);
+    }
+
+    public function get($path, $action, $name = null) : self
+    {
+        $routing = $this->service('routing');
+        $routing->get($name, $path, $action);
+
+        return $this;
+    }
+
+    public function start()
+    {
+        $route = $this->service('route');
+        $callable = $route->handler;
+        $callable();
     }
 }

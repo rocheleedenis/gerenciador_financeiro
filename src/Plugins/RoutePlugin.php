@@ -1,9 +1,11 @@
 <?php
 
-use SonFin\Plugins\PluginInterface;
+namespace SonFin\Plugins;
+
 use Aura\Router\RouterContainer;
-use SonFin\ServiceContainerInterface;
+use Interop\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
+use SonFin\ServiceContainerInterface;
 use Zend\Diactoros\ServerRequestFactory;
 
 class RoutePlugin implements PluginInterface
@@ -26,17 +28,21 @@ class RoutePlugin implements PluginInterface
         $container->add(RequestInterface::class, $request);
 
         $container->addLazy('route', function (ContainerInterface $container) {
-            $matcher = $container->get('route.matcher');
+            $matcher = $container->get('routing.matcher');
             $request = $container->get(RequestInterface::class);
 
             return $matcher->match($request);
         });
     }
 
-    protected function getRequest(): RequestInterface
+    protected function getRequest() : RequestInterface
     {
         return ServerRequestFactory::fromGlobals(
-            $_SERVER, $_GET, $_POST, $_COOKIE, $_FILES
+            $_SERVER,
+            $_GET,
+            $_POST,
+            $_COOKIE,
+            $_FILES
         );
     }
 }

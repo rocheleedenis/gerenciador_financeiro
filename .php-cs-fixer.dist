@@ -134,6 +134,7 @@ $finder       = PhpCsFixer\Finder::create()
         $project_path . '/src',
         $project_path . '/config',
         $project_path . '/db',
+        $project_path . '/public',
     ])
     ->name('*.php')
     ->notName('*.blade.php')
