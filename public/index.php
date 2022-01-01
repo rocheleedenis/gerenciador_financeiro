@@ -1,8 +1,8 @@
 <?php
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SonFin\Application;
+use SonFin\Plugins\DbPlugin;
 use SonFin\Plugins\RoutePlugin;
 use SonFin\Plugins\ViewPlugin;
 use SonFin\ServiceContainer;
@@ -15,11 +15,16 @@ $app              = new Application($serviceContainer);
 
 $app->plugin(new RoutePlugin);
 $app->plugin(new ViewPlugin);
+$app->plugin(new DbPlugin);
 
-$app->get('/{name}', function (ServerRequestInterface $request) use ($app) {
+$app->get('/category-costs', function (ServerRequestInterface $request) use ($app) {
     $view = $app->service('view.renderer');
+    $model = new \SonFin\Models\CategoryCost();
+    $categories = $model->all();
 
-    return $view->render('test.html.twig', ['name' => $request->getAttribute('name')]);
+    return $view->render('category-costs/list.html.twig', [
+        'categories' => $categories,
+    ]);
 });
 
 $app->get('/home/{name}/{id}', function (ServerRequestInterface $request) {
